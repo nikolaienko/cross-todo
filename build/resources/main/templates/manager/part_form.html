@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <title>Course : Create</title>
+</head>
+<body>
+<h1 layout:fragment="header">Part : Create</h1>
+<div layout:fragment="content"
+     class="container">
+    <form id="messageForm"
+          th:action="@{/part}"
+          th:object="${part}"
+          action="#"
+          method="post">
+        <input type="hidden" th:value="${courseId}" name="courseId"/>
+        <input type="hidden" th:value="${weekId}" name="form"/>
+        <div th:if="${#fields.hasErrors('*')}"
+             class="alert alert-error">
+            <p th:each="error : ${#fields.errors('*')}"
+               th:text="${error}">
+                Validation error
+            </p>
+        </div>
+        <div class="pull-right">
+            <a th:href="@{/${courseId}}">
+                Courses
+            </a>
+        </div>
+        <div class="row">
+            <div class="row"><label for="name">Part type</label></div>
+            <input type="text"
+                   th:field="*{name}"
+                   th:class="${#fields.hasErrors('name')} ? 'field-error'"/>
+
+        </div>
+
+        <div class="row">
+            <div class="row"><label for="description">Part description</label></div>
+            <textarea
+                    th:field="*{description}"
+                    th:class="${#fields.hasErrors('description')} ? 'field-error'"></textarea>
+        </div>
+
+        <div class="row">
+            <div class="row"><label for="name">External URL</label></div>
+            <input type="text"
+                   th:field="*{href}"
+                   th:class="${#fields.hasErrors('href')} ? 'field-error'"/>
+
+        </div>
+
+        <div class="form-actions">
+            <input type="submit" value="Create"/>
+        </div>
+    </form>
+</div>
+</body>
+</html>

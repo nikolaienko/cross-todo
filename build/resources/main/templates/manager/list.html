@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <title>All courses</title>
+</head>
+<body>
+<h1 layout:fragment="header">Courses : View all</h1>
+<div layout:fragment="content" class="container">
+    <div class="pull-right">
+        <!--<form th:action="@{/(form)}">-->
+            <!--<button type="submit" class="btn btn-success">Add Course</button>-->
+        <!--</form>-->
+        <a href="form.html" th:href="@{/(form=${userId})}"><h3>Add Course</h3></a>
+    </div>
+    <table class="table table-striped">
+        <tbody>
+        <!--<tr th:if="${messages.empty}">-->
+            <!--<td colspan="3">-->
+                <!--No messages-->
+            <!--</td>-->
+        <!--</tr>-->
+        <tr th:each="course:${courses}">
+            <!--<td th:text="${#calendars.format(message.created)}">-->
+                <!--July 11, 2012 2:17:16 PM CDT-->
+            <!--</td>-->
+            <td>
+                <span th:switch="${course.priority}">
+                <i th:case="'INFO'" class="ico n-warning-sign"></i>
+                <i th:case="ALERT" class="icon-remove"></i>
+                <i th:case="DONE" class="icon-ok"></i>
+                    <!--<i th:if="${course.priority.isEmpty()}" class="icon-remove"></i>-->
+                </span>
+            </td>
+            <h3><td>
+                <a href="view.html"
+                   th:href="@{'/' + ${course.id}}">
+                    <span th:text="${course.name}"> </span>
+                    </a>
+                </td>
+            </h3>
+            <td th:text="${course.description}"></td>
+            <td>
+                <form class="form" th:action="@{/delete}" method="post">
+                    <input type="hidden" th:value="${course.id}" name="courseId"/>
+                    <input type="hidden" th:value="${userId}" name="userId"/>
+                    <button class="btn pull-right warning" type="submit" value="Delete">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

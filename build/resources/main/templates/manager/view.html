@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <title>All courses</title>
+</head>
+<body>
+<h1 layout:fragment="header">Course : View detail</h1>
+<div layout:fragment="content" class="container">
+    <div class="pull-right">
+        <form class="form" th:action="@{/week}">
+            <input type="hidden" name="form"  th:value="${course.id}"/>
+            <button class="btn pull-left btn-success" type="submit" value="Add">Add week</button>
+        </form>
+    </div>
+    <table class="table table-bordered table-striped">
+        <tbody>
+        <!--<tr th:if="${messages.empty}">-->
+        <!--<td colspan="3">-->
+        <!--No messages-->
+        <!--</td>-->
+        <!--</tr>-->
+        <div th:each="week : ${course.weeks}">
+            <tr >
+                <td  th:text="'Week ' + ${week.number}">     </td>
+
+                <td th:text="${'Due date: ' +  #calendars.format(week.due,'dd MMMM yyyy')}">       </td>
+                <td>
+                    <span th:text="${'Hour: '}"/>
+                    <span th:number="week.estimate"/>
+
+                </td>
+                <td>
+                    <div>
+                        <form th:action="@{/course/week/update(id=${week.id})}">
+                            <button class="btn btn-warning" type="submit" value="change">Re:change</button>
+                        </form>
+                        <form th:action="@{/part}">
+                            <input type="hidden" name="form" th:value="${week.id}"/>
+                            <input type="hidden" name="courseId" th:value="${course.id}"/>
+                            <button class="btn btn-btn-success" type="submit" value="change">Add part</button>
+                        </form>
+                    </div>
+
+                </td>
+            </tr>
+            <tr th:each="part:${week.parts}">
+                <td></td>
+                <td>
+                    <div>
+                        <div><span th:text="${part.name}"></span> </div>
+                        <div><a th:href="@{part.href}" target="_blank">Href</a></div>
+                    </div>
+
+                </td>
+                <td th:text="${part.description}">
+                </td>
+
+                <td>
+                    <form th:action="@{/course/confirm(partId=${part.id})}">
+                        <button class="btn pull-right btn-success" type="submit" value="Confirm">Confirm</button>
+                    </form>
+                </td>
+            </tr>
+        </div>
+        </tbody>
+        </table>
+</div>
+</body>
+</html>

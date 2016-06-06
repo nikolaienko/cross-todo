@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <title>Course : Create</title>
+</head>
+<body>
+<h1 layout:fragment="header">Course : Create</h1>
+<div layout:fragment="content"
+     class="container">
+    <form id="messageForm"
+          th:action="@{/week}"
+          th:object="${week}"
+          action="#"
+          method="post">
+        <input type="hidden" th:value="${courseId}" name="form"/>
+        <div th:if="${#fields.hasErrors('*')}"
+             class="alert alert-error">
+            <p th:each="error : ${#fields.errors('*')}"
+               th:text="${error}">
+                Validation error
+            </p>
+        </div>
+        <div class="pull-right">
+            <a th:href="@{/${courseId}}">
+                Courses
+            </a>
+        </div>
+        <div class="row">
+            <div class="row"><label for="name">Week number</label></div>
+            <input type="number"
+                   th:field="*{number}"
+                   th:class="${#fields.hasErrors('number')} ? 'field-error'"/>
+
+        </div>
+        <div class="row">
+            <div class="row"><label for="name">Week number</label></div>
+            <input type="date"
+                   th:field="*{due}"
+                   th:class="${#fields.hasErrors('due')} ? 'field-error'"/>
+
+        </div>
+
+        <div class="row">
+            <div class="row"><label for="name">Week estimate</label></div>
+            <input type="number"
+                   th:field="*{estimate}"
+                   th:class="${#fields.hasErrors('estimate')} ? 'field-error'"/>
+
+        </div>
+        <div class="form-actions">
+            <input type="submit" value="Create"/>
+        </div>
+    </form>
+</div>
+</body>
+</html>
